@@ -1,0 +1,10 @@
+{
+  "name": "a-frame-code",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Course labs and projects for A-Frame exercises.",
+  "license": "UNLICENSED",
+  "scripts": {
+    "test": "echo 'No automated tests configured.'"
+  }
+}

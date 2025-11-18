@@ -2,6 +2,15 @@
 <html>
   <head>
     <script src="https://aframe.io/releases/1.7.1/aframe.min.js"> </script>
+    <meta charset="utf-8" />
+    <title>ImageLab10 - Unreal Summer World</title>
+    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"></script>
+    <style>
+      body {
+        margin: 0;
+        font-family: sans-serif;
+      }
+    </style>
   </head>
   <body>
     <a-scene>
@@ -10,6 +19,454 @@
       <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
       <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
       <a-sky color="#ECECEC"></a-sky>
+    <a-scene renderer="colorManagement: true; highRefreshRate: true" shadow="type: pcfsoft">
+      <a-assets>
+        <img id="skyTexture" src="assets/lakeshore-360.png" />
+        <img id="fallbackSkyTexture" src="assets/summer-sky.png" />
+        <img id="sandTexture" src="./assets/warm-sand.png" />
+        <img id="castleTexture" src="./assets/castle-stone.png" />
+        <img id="waffleTexture" src="./assets/waffle-cone.png" />
+        <img id="umbrellaTexture" src="./assets/sunset-stripes.png" />
+        <img id="scoopTexture" src="./assets/berry-scoop.png" />
+        <img
+          id="towelTexture"
+          src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScyNTYnIGhlaWdodD0nMjU2Jz4KICA8cmVjdCB3aWR0aD0nMjU2JyBoZWlnaHQ9JzI1NicgZmlsbD0nI2ZmZTRiNScvPgogIDxyZWN0IHk9JzAnIHdpZHRoPScyNTYnIGhlaWdodD0nMzInIGZpbGw9JyNmZjZmOTEnLz4KICA8cmVjdCB5PSc2NCcgd2lkdGg9JzI1NicgaGVpZ2h0PSczMicgZmlsbD0nI2ZmZDE2NicvPgogIDxyZWN0IHk9JzEyOCcgd2lkdGg9JzI1NicgaGVpZ2h0PSczMicgZmlsbD0nIzA2ZDZhMCcvPgogIDxyZWN0IHk9JzE5Micgd2lkdGg9JzI1NicgaGVpZ2h0PSczMicgZmlsbD0nIzExOGFiMicvPgo8L3N2Zz4="
+        />
+        <img
+          id="waterTexture"
+          src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nNTEyJyBoZWlnaHQ9JzUxMicgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0nYnVibGUnIHgxPScwJyB5MT0nMCcgeDI9JzAnIHkyPScxJz4KICAgICAgPHN0b3Agb2Zmc2V0PScwJScgc3RvcC1jb2xvcj0nIzU4YWRkOCcvPgogICAgICA8c3RvcCBvZmZzZXQ9JzUwJScgc3RvcC1jb2xvcj0nIzQzOGJiYScvPgogICAgICA8c3RvcCBvZmZzZXQ9JzEwMCUnIHN0b3AtY29sb3I9JyMyYjhkY2YnLz4KICAgIDwvbGluZWFyR3JhZGllbnQ+CiAgICA8cGF0dGVybiBpZD0ncmlwcGxlcycgd2lkdGg9JzEyOCcgaGVpZ2h0PSc2NCcgcGF0dGVyblVuaXRzPSd1c2VyU3BhY2VPblVzZSc+CiAgICAgIDxwYXRoIGQ9J00wIDMyIFE2NCAwIDEyOCAzMiBRNjQgNjQgMCAzMiBaJyBmaWxsPScjZjVmYmZmJyBmaWxsLW9wYWNpdHk9JzAuMScvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCBmaWxsPSd1cmwoI2J1YmxlKScgd2lkdGg9JzUxMicgaGVpZ2h0PSc1MTInLz4KICA8cmVjdCBmaWxsPSd1cmwoI3JpcHBsZXMpJyB3aWR0aD0nNTEyJyBoZWlnaHQ9JzUxMicgZmlsbC1vcGFjaXR5PScwLjMnLz4KPC9zdmc+"
+        />
+        <img
+          id="foamTexture"
+          src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMzAwJyBoZWlnaHQ9JzMwMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0nZm9hbScgeDE9JzAnIHkxPScwJyB4Mj0nMCcgeTI9JzEnPgogICAgICA8c3RvcCBvZmZzZXQ9JzAlJyBzdG9wLWNvbG9yPScjZmZmZWZmJy8+CiAgICAgIDxzdG9wIG9mZnNldD0nMTAwJScgc3RvcC1jb2xvcj0nI2YxZTdmNScvPgogICAgPC9saW5lYXJHcmFkaWVudD4KICA8L2RlZnM+CiAgPHJlY3QgZmlsbD0ndXJsKCNmb2FtKScgd2lkdGg9JzMwMCcgaGVpZ2h0PSczMDAnLz4KICA8Y2lyY2xlIGN4PSc1MCcgY3k9JzE1JyByPScxMicgZmlsbD0nI2ZmZmZmZicgZmlsbC1vcGFjaXR5PScwLjcnLz4KICA8Y2lyY2xlIGN4PScxNScgY3k9JzMwJyByPSc4JyBmaWxsPScjZmZmZmZmJyBmaWxsLW9wYWNpdHk9JzAuOCcvPgogIDxjaXJjbGUgY3g9Jzc1JyBjeT0nNDInIHI9JzEwJyBmaWxsPScjZmZmZmZmJyBmaWxsLW9wYWNpdHk9JzAuNScvPgo8L3N2Zz4="
+        />
+        <img
+          id="leafTexture"
+          src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjAwJyBoZWlnaHQ9JzIwMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz4KICA8ZyB0cmFuc2Zvcm09J3JvdGF0ZSgtNSknPgogICAgPHBhdGggZD0nTTAgMTQwIFE4MCAwIDIwMCA4MCAxMjAgMTYwIDAgMTQwIFonIGZpbGw9JyMxZGI3NmYnIHN0cm9rZT0nI2E1ZGZjOScgc3Ryb2tlLXdpZHRoPScxOCcvPgogIDwvZz4KPC9zdmc+"
+        />
+        <img
+          id="barkTexture"
+          src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMTI4JyBoZWlnaHQ9JzEyOCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz4KICA8cmVjdCBmaWxsPScjN2M0YTFhJyB3aWR0aD0nMTI4JyBoZWlnaHQ9JzEyOCcvPgogIDxwYXRoIGQ9J00wIDI0IFE2NCAwIDEyOCAyNCBWMzIgUTY0IDI0IDAgMzIgWicgZmlsbD0ncmdiYSgyNTUsMjU1LDI1NSwwLjEpJy8+CiAgPHBhdGggZD0nTTAgNjAgUTY0IDM2IDEyOCA2MCBWNzAgUTY0IDY0IDAgNzAgWicgZmlsbD0ncmdiYSgyNTUsMjU1LDI1NSwwLjA4KScvPgogIDxwYXRoIGQ9J00wIDk2IFE2NCA3MiAxMjggOTYgVjEwNiBRNjQgOTkgMCAxMDYgWicgZmlsbD0ncmdiYSgyNTUsMjU1LDI1NSwwLjA2KScvPgo8L3N2Zz4="
+        />
+        <img
+          id="sprinkleTexture"
+          src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMzAwJyBoZWlnaHQ9JzMwMCcgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz4KICA8cmVjdCBmaWxsPScjZjhmMmZmJyB3aWR0aD0nMzAwJyBoZWlnaHQ9JzMwMCcvPgogIDxnIHN0cm9rZT0nbm9uZScgZmlsbD0nI2ZmZmZmZicgZmlsbC1vcGFjaXR5PScwLjc0Jz4KICAgIDxyZWN0IHg9JzcwJyB5PSc2MCcgd2lkdGg9JzE1JyBoZWlnaHQ9JzQ1JyByeD0nOCcvPgogICAgPHJlY3QgeD0nMTIwJyB5PScyMScgd2lkdGg9JzE1JyBoZWlnaHQ9JzQ1JyByeD0nOCcvPgogICAgPHJlY3QgeD0nMTcwJyB5PSc4Micgd2lkdGg9JzE1JyBoZWlnaHQ9JzQ1JyByeD0nOCcvPgogICAgPHJlY3QgeD0nMjIwJyB5PSczNScgd2lkdGg9JzE1JyBoZWlnaHQ9JzQ1JyByeD0nOCcvPgogICAgPHJlY3QgeD0nMjQwJyB5PScxMjAnIHdpZHRoPScxNScgaGVpZ2h0PSc0NScgcng9JzgnLz4KICAgIDxyZWN0IHg9JzIwJyB5PScxNTAuNScgd2lkdGg9JzE1JyBoZWlnaHQ9JzQ1JyByeD0nOCcvPgogICAgPHJlY3QgeD0nMTEwJyB5PScxODAnIHdpZHRoPScxNScgaGVpZ2h0PSc0NScgcng9JzgnLz4KICAgIDxyZWN0IHg9JzE4MCcgeT0nMjIwJyB3aWR0aD0nMTUnIGhlaWdodD0nNDUnIHJ4PSc4Jy8+CiAgPC9nPgo8L3N2Zz4="
+        />
+        <img
+          id="floatyTexture"
+          src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMjU2JyBoZWlnaHQ9JzI1NicgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz4KICA8ZyB0cmFuc2Zvcm09J3JvdGF0ZSgtNSknPgogICAgPHBhdGggZD0nTTAgMTI4IFE2NCAwIDI1NiA2NCAxOTIgMTI4IDAgMTI4IFonIGZpbGw9JyNmZjY5NzgnIHN0cm9rZT0nI2ZmZDI2YScgc3Ryb2tlLXdpZHRoPScxNicvPgogICAgPHBhdGggZD0nTTQ4IDEyOCBRMTAwIDgwIDE1NiAxMjggMTAwIDE3NiA0OCAxMjggWicgZmlsbD0nI2ZmZmZmZicgc3Ryb2tlPScjZmZkMjZhJyBzdHJva2Utd2lkdGg9JzExJy8+CiAgICA8cGF0aCBkPSdNMTIwIDEyOCBRMTQwIDEwOCAxNzIgMTI4IDE0MCAxNDggMTIwIDE0OCA5OCAxMjggMTIwIDEyOCBaJyBmaWxsPScjZjRmN2YyJy8+CiAgPC9nPgo8L3N2Zz4="
+        />
+      </a-assets>
+
+      <a-entity light="type: ambient; intensity: 0.4; color: #fff7e6"></a-entity>
+      <a-entity
+        light="type: directional; intensity: 0.95; color: #ffe4b2"
+        position="-6 9 3"
+        rotation="-50 -35 0"
+        shadow="cast: true"
+      ></a-entity>
+
+      <a-entity id="world-root" position="0 0 -8">
+        <a-entity id="water" position="0 -0.25 0">
+          <a-cylinder
+            src="#waterTexture"
+            radius="16"
+            height="0.1"
+            rotation="0 0 0"
+            material="repeat: 6 6; metalness: 0.1; roughness: 0.4"
+          >
+            <a-animation
+              attribute="material.offset"
+              from="0 0"
+              to="0.4 0.4"
+              dur="12000"
+              repeat="indefinite"
+              easing="linear"
+            ></a-animation>
+          </a-cylinder>
+          <a-cylinder
+            src="#foamTexture"
+            radius="11"
+            height="0.02"
+            position="0 0.08 0"
+            material="transparent: true; opacity: 0.4; repeat: 5 5"
+          ></a-cylinder>
+        </a-entity>
+
+        <a-entity id="floating-atoll" position="0 1 0">
+          <a-cylinder
+            src="#sandTexture"
+            radius="6"
+            height="0.4"
+            position="0 0 0"
+            material="repeat: 8 8"
+            shadow="cast: true; receive: true"
+          ></a-cylinder>
+          <a-cone
+            color="#ce8b4a"
+            height="4"
+            radius-bottom="7"
+            radius-top="5.6"
+            position="0 -1.7 0"
+            material="roughness: 0.8"
+          ></a-cone>
+          <a-ring
+            color="#f7f0d8"
+            radius-inner="4"
+            radius-outer="4.6"
+            rotation="-90 0 0"
+            position="0 0.22 0"
+            material="opacity: 0.55; transparent: true"
+          ></a-ring>
+
+          <a-entity id="dunes" position="0 0.25 0">
+            <a-sphere
+              src="#sandTexture"
+              radius="3"
+              position="-1.5 -1.2 -1"
+              scale="2 0.45 1.6"
+              material="repeat: 3 2"
+            ></a-sphere>
+            <a-sphere
+              src="#sandTexture"
+              radius="2.5"
+              position="2 -1.3 0.8"
+              scale="2.2 0.4 1.4"
+              material="repeat: 3 2"
+            ></a-sphere>
+            <a-sphere
+              src="#sandTexture"
+              radius="1.8"
+              position="0 -1.1 2.2"
+              scale="1.8 0.4 1.8"
+            ></a-sphere>
+          </a-entity>
+
+          <a-entity id="sun-halo" position="-4 4 -6">
+            <a-ring
+              color="#ffe066"
+              radius-inner="1.4"
+              radius-outer="1.9"
+              rotation="0 0 0"
+              material="opacity: 0.6"
+            ></a-ring>
+            <a-sphere color="#ffdf6b" radius="1.2"></a-sphere>
+            <a-animation
+              attribute="rotation"
+              to="0 360 0"
+              dur="15000"
+              easing="linear"
+              repeat="indefinite"
+            ></a-animation>
+          </a-entity>
+
+          <a-entity id="palm-tree" position="-3.4 0.3 -1.2" rotation="0 20 0">
+            <a-cylinder
+              src="#barkTexture"
+              radius="0.28"
+              height="3.8"
+              position="0 1.9 0"
+              rotation="8 0 0"
+              shadow="cast: true"
+            ></a-cylinder>
+            <a-cylinder
+              src="#barkTexture"
+              radius="0.22"
+              height="2.1"
+              position="0 3.4 -0.4"
+              rotation="22 0 0"
+              shadow="cast: true"
+            ></a-cylinder>
+            <a-entity position="0 4.6 -0.8">
+              <a-plane
+                src="#leafTexture"
+                width="4.4"
+                height="1.8"
+                material="transparent: true; side: double"
+                rotation="14 0 0"
+              ></a-plane>
+              <a-plane
+                src="#leafTexture"
+                width="4.2"
+                height="1.6"
+                material="transparent: true; side: double"
+                rotation="-6 120 12"
+              ></a-plane>
+              <a-plane
+                src="#leafTexture"
+                width="4.2"
+                height="1.6"
+                material="transparent: true; side: double"
+                rotation="-10 -120 -8"
+              ></a-plane>
+              <a-plane
+                src="#leafTexture"
+                width="3.5"
+                height="1.4"
+                material="transparent: true; side: double"
+                rotation="24 60 -16"
+              ></a-plane>
+            </a-entity>
+            <a-entity position="0 4.2 -0.4">
+              <a-sphere color="#4c2f16" radius="0.22" position="0.15 0.1 0"></a-sphere>
+              <a-sphere color="#4c2f16" radius="0.22" position="-0.15 0.04 0.12"></a-sphere>
+              <a-sphere color="#4c2f16" radius="0.2" position="0 0.18 -0.16"></a-sphere>
+            </a-entity>
+          </a-entity>
+
+          <a-entity id="sandcastle" position="-0.6 0.2 -2.4">
+            <a-box
+              src="#castleTexture"
+              width="2.8"
+              height="1"
+              depth="2"
+              material="repeat: 3 2"
+              shadow="cast: true; receive: true"
+            ></a-box>
+            <a-box
+              src="#castleTexture"
+              width="2"
+              height="0.8"
+              depth="1.2"
+              position="0 0.9 0"
+              material="repeat: 2 1"
+              shadow="cast: true"
+            ></a-box>
+            <a-entity id="towers">
+              <a-cylinder
+                src="#castleTexture"
+                radius="0.35"
+                height="1.4"
+                position="-1.1 1.1 -0.6"
+                shadow="cast: true"
+              ></a-cylinder>
+              <a-cylinder
+                src="#castleTexture"
+                radius="0.35"
+                height="1.4"
+                position="1.1 1.1 -0.6"
+                shadow="cast: true"
+              ></a-cylinder>
+              <a-cylinder
+                src="#castleTexture"
+                radius="0.32"
+                height="1.4"
+                position="0 1.1 0.7"
+                shadow="cast: true"
+              ></a-cylinder>
+            </a-entity>
+            <a-entity id="turrets" position="0 1.7 0">
+              <a-cone
+                color="#f4d36d"
+                height="0.6"
+                radius-bottom="0.5"
+                radius-top="0"
+                position="-1.1 -0.2 -0.6"
+              ></a-cone>
+              <a-cone
+                color="#f4d36d"
+                height="0.6"
+                radius-bottom="0.5"
+                radius-top="0"
+                position="1.1 -0.2 -0.6"
+              ></a-cone>
+              <a-cone
+                color="#f4d36d"
+                height="0.6"
+                radius-bottom="0.46"
+                radius-top="0"
+                position="0 -0.2 0.7"
+              ></a-cone>
+            </a-entity>
+            <a-plane
+              color="#8c6239"
+              width="0.8"
+              height="0.9"
+              rotation="0 0 0"
+              position="0 0.4 1"
+            ></a-plane>
+            <a-box
+              color="#f4d36d"
+              width="2.6"
+              height="0.2"
+              depth="0.4"
+              position="0 1.2 -1"
+            ></a-box>
+            <a-entity id="flag" position="0 2.05 -1">
+              <a-cylinder color="#ffffff" radius="0.05" height="0.8" position="0 0.4 0"></a-cylinder>
+              <a-plane
+                color="#ff4f7c"
+                width="0.55"
+                height="0.3"
+                position="0.3 0.65 0"
+                rotation="0 0 12"
+              ></a-plane>
+            </a-entity>
+          </a-entity>
+
+          <a-entity id="ice-cream" position="2.8 0.32 -1.1">
+            <a-cone
+              src="#waffleTexture"
+              height="2"
+              radius-bottom="0.75"
+              radius-top="0.15"
+              position="0 1 0"
+              material="repeat: 1.2 2"
+              shadow="cast: true"
+            ></a-cone>
+            <a-sphere
+              src="#scoopTexture"
+              radius="0.78"
+              position="0 2.05 0"
+              material="repeat: 2 2"
+              shadow="cast: true"
+            ></a-sphere>
+            <a-sphere
+              color="#ffe7a0"
+              radius="0.68"
+              position="0.45 2.55 -0.18"
+              shadow="cast: true"
+            ></a-sphere>
+            <a-sphere
+              color="#9bd4f8"
+              radius="0.58"
+              position="-0.42 2.45 0.28"
+              shadow="cast: true"
+            ></a-sphere>
+            <a-sphere
+              src="#sprinkleTexture"
+              radius="0.62"
+              position="0 2.4 0.32"
+              scale="1 0.6 1"
+              material="transparent: true; repeat: 2 2"
+            ></a-sphere>
+            <a-cylinder
+              color="#6d3b26"
+              radius="0.05"
+              height="0.8"
+              position="0.2 3 0.1"
+              rotation="-32 0 18"
+            ></a-cylinder>
+            <a-sphere color="#ff6f91" radius="0.12" position="0.32 3.28 0"></a-sphere>
+            <a-animation
+              attribute="rotation"
+              from="-4 0 0"
+              to="4 360 0"
+              direction="alternate"
+              dur="9000"
+              repeat="indefinite"
+            ></a-animation>
+          </a-entity>
+
+          <a-entity id="umbrella-setup" position="1.2 0.26 1.6" rotation="0 -20 0">
+            <a-cylinder color="#d9c7b3" radius="0.08" height="2.6" position="0 1.3 0"></a-cylinder>
+            <a-entity position="0 2.35 0">
+              <a-cone
+                src="#umbrellaTexture"
+                height="1.1"
+                radius-bottom="1.8"
+                radius-top="0"
+                material="repeat: 1 1"
+              ></a-cone>
+              <a-ring
+                color="#f6a85f"
+                radius-inner="0.08"
+                radius-outer="1.78"
+                rotation="-90 0 0"
+                position="0 -0.02 0"
+              ></a-ring>
+              <a-entity id="ribs">
+                <a-box color="#fff0d8" width="0.12" height="0.04" depth="1.7" position="0 0 0" rotation="0 0 0"></a-box>
+                <a-box color="#fff0d8" width="0.12" height="0.04" depth="1.7" position="0 0 0" rotation="0 60 0"></a-box>
+                <a-box color="#fff0d8" width="0.12" height="0.04" depth="1.7" position="0 0 0" rotation="0 120 0"></a-box>
+              </a-entity>
+            </a-entity>
+            <a-plane
+              src="#towelTexture"
+              width="2.7"
+              height="1.2"
+              rotation="-90 0 0"
+              position="0 0.02 0.8"
+              material="side: double"
+            ></a-plane>
+            <a-entity id="lounge" position="-0.1 0 0.4" rotation="-12 8 0">
+              <a-box color="#fbead7" width="0.5" height="0.12" depth="1.6" position="0 0.35 0"></a-box>
+              <a-box color="#ffe3b3" width="0.5" height="0.12" depth="1.1" position="0 0.65 -0.18" rotation="-28 0 0"></a-box>
+              <a-cylinder color="#c78b49" radius="0.06" height="0.7" rotation="80 0 0" position="-0.3 0.6 -0.9"></a-cylinder>
+              <a-cylinder color="#c78b49" radius="0.06" height="0.7" rotation="80 0 0" position="0.3 0.6 -0.9"></a-cylinder>
+              <a-cylinder color="#c78b49" radius="0.06" height="0.5" rotation="94 0 0" position="-0.3 0.4 0.75"></a-cylinder>
+              <a-cylinder color="#c78b49" radius="0.06" height="0.5" rotation="94 0 0" position="0.3 0.4 0.75"></a-cylinder>
+            </a-entity>
+          </a-entity>
+
+          <a-entity id="floaty" position="-3.2 0.36 2.8">
+            <a-torus
+              src="#floatyTexture"
+              radius="0.95"
+              radius-tubular="0.18"
+              rotation="90 0 0"
+              shadow="cast: true"
+            ></a-torus>
+            <a-animation
+              attribute="position"
+              from="-3.2 0.36 2.8"
+              to="-3.2 0.52 2.8"
+              direction="alternate"
+              dur="2600"
+              repeat="indefinite"
+              easing="easeInOutSine"
+            ></a-animation>
+          </a-entity>
+
+          <a-entity id="seashell-trio" position="1.4 0.18 -3.4">
+            <a-sphere src="#castleTexture" radius="0.22" scale="1 0.5 1" position="0 0 0"></a-sphere>
+            <a-sphere color="#ffd9b3" radius="0.18" scale="1 0.5 1" position="0.42 0.05 -0.18"></a-sphere>
+            <a-sphere color="#ffbdbd" radius="0.16" scale="1 0.6 1" position="-0.38 0.03 -0.24"></a-sphere>
+          </a-entity>
+
+          <a-entity id="sailboat" position="0.4 0.4 4.2" rotation="0 28 0">
+            <a-box width="2.2" height="0.25" depth="0.7" color="#905c38" position="0 0 0" shadow="cast: true"></a-box>
+            <a-triangle color="#ffffff" vertex-a="0 0 0" vertex-b="0 2 0" vertex-c="-1.2 0 0" position="0 0 0"></a-triangle>
+            <a-triangle color="#d7f1ff" vertex-a="0 0 0" vertex-b="0 1.4 0" vertex-c="1 0 0" position="0 0 0.04"></a-triangle>
+            <a-cylinder color="#f7f7f7" radius="0.06" height="2.2" position="0 1 0"></a-cylinder>
+            <a-animation attribute="rotation" to="0 48 0" direction="alternate" dur="7000" repeat="indefinite"></a-animation>
+          </a-entity>
+        </a-entity>
+      </a-entity>
+
+      <a-entity id="glow-orbs" position="0 2 -8">
+        <a-sphere color="#fff1a8" radius="0.3" position="-2 1.4 -2" material="emissive: #ffe070; emissiveIntensity: 0.8"></a-sphere>
+        <a-sphere color="#ffd3f6" radius="0.22" position="1.6 2.2 -1" material="emissive: #ffc4f0; emissiveIntensity: 0.8"></a-sphere>
+        <a-sphere color="#b9f7ff" radius="0.26" position="0.4 1.1 -3.2" material="emissive: #92f0ff; emissiveIntensity: 0.7"></a-sphere>
+      </a-entity>
+
+      <a-sky id="world-sky" src="#fallbackSkyTexture"></a-sky>
     </a-scene>
+
+    <!-- For Project 3, I plan to make a "World of my own Imagination" in VR about an underwater bioluminescent reef adventure. -->
+
+    <script>
+
+      const scene = document.querySelector("a-scene");
+      const sky = document.querySelector("#world-sky");
+      const customSky = document.querySelector("#skyTexture");
+
+      const useCustomSky = () => {
+        if (customSky.complete && customSky.naturalWidth > 0) {
+          sky.setAttribute("src", "#skyTexture");
+        }
+      };
+
+      customSky.addEventListener("load", useCustomSky);
+      scene.addEventListener("loaded", useCustomSky);
+
+      customSky.addEventListener("error", () => {
+        console.warn(
+          "ImageLab10: lakeshore-360.png was not found in ImageLab10/assets. The scene will use the fallback sky texture instead."
+        );
+        sky.setAttribute("src", "#fallbackSkyTexture");
+      });
+    </script>
   </body>
+</html>
 </html>
