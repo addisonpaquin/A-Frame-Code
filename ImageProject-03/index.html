@@ -1,15 +1,153 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <script src="https://aframe.io/releases/1.7.1/aframe.min.js"> </script>
+    <meta charset="UTF-8" />
+    <title>Starlit Seashell Sanctuary</title>
+
+    <!-- A-Frame core -->
+    <script src="https://aframe.io/releases/1.5.0/aframe.min.js"></script>
+
+    <script>
+      // Clicking the shell makes it grow slightly each time
+      AFRAME.registerComponent("click-grow", {
+        init: function () {
+          const el = this.el;
+          el.addEventListener("click", function () {
+            const currentScale = el.getAttribute("scale");
+            const factor = 1.2;
+            el.setAttribute("scale", {
+              x: currentScale.x * factor,
+              y: currentScale.y * factor,
+              z: currentScale.z * factor
+            });
+          });
+        },
+      });
+    </script>
+
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+        font-family: system-ui, Arial, sans-serif;
+      }
+      #title-overlay {
+        position: absolute;
+        top: 12px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 8px 14px;
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border-radius: 999px;
+        font-size: 14px;
+        z-index: 10;
+        backdrop-filter: blur(6px);
+      }
+      #hint-overlay {
+        position: absolute;
+        bottom: 16px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px 10px;
+        background: rgba(0, 0, 0, 0.5);
+        color: #fff;
+        border-radius: 999px;
+        font-size: 12px;
+        z-index: 10;
+        backdrop-filter: blur(6px);
+      }
+    </style>
   </head>
+
   <body>
+    <!-- Screen text overlay -->
+    <div id="title-overlay">
+      Starlit Seashell Sanctuary • Click the shell to make it grow
+    </div>
+    <div id="hint-overlay">Use WASD / Arrow keys to move, drag to look</div>
+
     <a-scene>
-      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
-      <a-sphere position="0 1.25 -5" radius="1.25" color="#EF2D5E"></a-sphere>
-      <a-cylinder position="1 0.75 -3" radius="0.5" height="1.5" color="#FFC65D"></a-cylinder>
-      <a-plane position="0 0 -4" rotation="-90 0 0" width="4" height="4" color="#7BC8A4"></a-plane>
-      <a-sky color="#ECECEC"></a-sky>
+      <a-assets>
+        <!-- SKY TEXTURE -->
+        <img id="skyTexture" src="textures/starlit-sky.jpg" />
+
+        <!-- GLTF 3D MODELS -->
+        <a-asset-item id="shellModel" src="models/shell/scene.gltf"></a-asset-item>
+        <a-asset-item id="palmModel" src="models/palm/scene.gltf"></a-asset-item>
+      </a-assets>
+
+      <!-- SKY BACKGROUND -->
+      <a-sky src="#skyTexture"></a-sky>
+
+      <!-- GROUND PLATFORM -->
+      <a-entity 
+        geometry="primitive: circle; radius: 25" 
+        rotation="-90 0 0"
+        material="color: #03040c; opacity: 0.98">
+      </a-entity>
+
+      <!-- FLOATING LIGHTS -->
+      <a-entity 
+        geometry="primitive: sphere; radius: 0.06"
+        material="color: #ffffff; emissive: #ffffff; emissiveIntensity: 1"
+        position="-3 2 -4"
+        animation="property: position; dir: alternate; to: -3 3 -4; loop: true; dur: 4000; easing: easeInOutSine">
+      </a-entity>
+
+      <a-entity 
+        geometry="primitive: sphere; radius: 0.06"
+        material="color: #ffffff; emissive: #ffffff; emissiveIntensity: 1"
+        position="2 1.8 -3"
+        animation="property: position; dir: alternate; to: 2 3 -3; loop: true; dur: 5000; easing: easeInOutSine">
+      </a-entity>
+
+      <!-- INTERACTIVE SEASHELL -->
+      <a-entity
+        id="bigShell"
+        class="clickable"
+        gltf-model="#shellModel"
+        position="0 0 -4"
+        scale="0.8 0.8 0.8"
+        click-grow
+        animation="property: rotation; to: 0 360 0; loop: true; dur: 12000; easing: linear">
+      </a-entity>
+
+      <!-- PALM TREES -->
+      <a-entity 
+        gltf-model="#palmModel"
+        position="-2 0 -3"
+        scale="0.6 0.6 0.6">
+      </a-entity>
+
+      <a-entity 
+        gltf-model="#palmModel"
+        position="2 0 -3"
+        scale="0.6 0.6 0.6"
+        rotation="0 40 0">
+      </a-entity>
+
+      <!-- FLOATING IN-WORLD TEXT -->
+      <a-entity 
+        position="0 2.2 -3"
+        text="value: Starlit Seashell Sanctuary; align: center; width: 4; color: #ffffff">
+      </a-entity>
+
+      <a-entity 
+        position="0 1.8 -3"
+        text="value: A dreamy space-ocean portal world.; align: center; width: 4; color: #ccccff">
+      </a-entity>
+
+      <!-- CAMERA + CONTROLS -->
+      <a-entity position="0 1.6 0">
+        <a-entity camera look-controls wasd-controls cursor="rayOrigin: mouse"
+          raycaster="objects: .clickable"></a-entity>
+      </a-entity>
+
+      <!-- LIGHTING -->
+      <a-entity light="type: ambient; intensity: 0.65"></a-entity>
+      <a-entity light="type: directional; intensity: 0.7" position="1 3 2"></a-entity>
+
     </a-scene>
   </body>
 </html>
